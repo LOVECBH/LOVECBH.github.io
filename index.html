@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 
 
@@ -331,7 +331,7 @@
 <h2 id="5、STATA实例"><a href="#5、STATA实例" class="headerlink" title="5、STATA实例"></a>5、STATA实例</h2><p>今天用一个叫做grilic.dta的数据集来进行STATA操作，grilic.dta被用来研究工资与受教育年限的正相关关系，但其中遗漏了“能力”这个变量，导致了遗漏变量偏差。(&amp;是分界符，后面是STATA命令)</p>
 <p>先来看一下对变量的描述</p>
 <p>&amp;de</p>
-<p><img src="/2018/11/06/first/D:/Hexofiles\source\_posts\first\de.png" alt="de"></p>
+<p><img src=".../2018/11/06/first/D:/Hexofiles\source\_posts\first\de.png" alt="de"></p>
 <p>由于iq与能力最为接近，故引入iq作为能力的代理变量，因iq来度量能力存在“测量误差”，故iq是内生变量，考虑使用变量med,kww作为iq的工具变量，进行2SLS回归</p>
 <p>&amp;ivregress 2sls lw s expr tenure rns smsa (iq=med kww)</p>
 <p><img src="/2018/11/06/first/D:/Hexofiles\source\_posts\first\ivre.png" alt="ivre"></p>
