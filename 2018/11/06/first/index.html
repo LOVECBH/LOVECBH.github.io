@@ -62,14 +62,14 @@
 <h2 id="5、STATA实例"><a href="#5、STATA实例" class="headerlink" title="5、STATA实例"></a>5、STATA实例</h2><p>今天用一个叫做grilic.dta的数据集来进行STATA操作，grilic.dta被用来研究工资与受教育年限的正相关关系，但其中遗漏了“能力”这个变量，导致了遗漏变量偏差。</p>
 <p>先来看一下对变量的描述</p>
 <p>de</p>
-<p><img src="/06/first/de.png" alt="de"></p>
+<p><img src="/2018/11/06/first/de.png" alt="de"></p>
 <h4 id="由于iq与能力最为接近，故引入iq作为能力的代理变量，因iq来度量能力存在“测量误差”，故iq是内生变量，考虑使用变量med-kww作为iq的工具变量，进行2SLS回归"><a href="#由于iq与能力最为接近，故引入iq作为能力的代理变量，因iq来度量能力存在“测量误差”，故iq是内生变量，考虑使用变量med-kww作为iq的工具变量，进行2SLS回归" class="headerlink" title="由于iq与能力最为接近，故引入iq作为能力的代理变量，因iq来度量能力存在“测量误差”，故iq是内生变量，考虑使用变量med,kww作为iq的工具变量，进行2SLS回归"></a>由于iq与能力最为接近，故引入iq作为能力的代理变量，因iq来度量能力存在“测量误差”，故iq是内生变量，考虑使用变量med,kww作为iq的工具变量，进行2SLS回归</h4><p>ivregress 2sls lw s expr tenure rns smsa (iq=med kww)</p>
-<p><img src="/06/first/ivre.png" alt="ivre"></p>
+<p><img src="/2018/11/06/first/ivre.png" alt="ivre"></p>
 <h4 id="检验工具变量med-kww的外生性"><a href="#检验工具变量med-kww的外生性" class="headerlink" title="检验工具变量med,kww的外生性"></a>检验工具变量med,kww的外生性</h4><p>estat overid</p>
-<p><img src="/06/first/overid.png" alt="overid"></p>
+<p><img src="/2018/11/06/first/overid.png" alt="overid"></p>
 <p>p值为0.71,因此接受原假设，认为med,kww外生，与扰动项不相关</p>
 <h4 id="检验工具变量med-kww的相关性"><a href="#检验工具变量med-kww的相关性" class="headerlink" title="检验工具变量med,kww的相关性"></a>检验工具变量med,kww的相关性</h4><p>estat firststage,all forcenonrobust</p>
-<p><img src="/06/first/firststage.png" alt="firststage"></p>
+<p><img src="/2018/11/06/first/firststage.png" alt="firststage"></p>
 <p>可以看出F统计量的p值为0，显著拒绝工具变量弱相关的假设，工具变量与内生变量是相关的</p>
 <h4 id="使用工具变量法的前提是存在内生变量，为此进行豪斯曼检验，其原假设为“所有解释变量均为外生”"><a href="#使用工具变量法的前提是存在内生变量，为此进行豪斯曼检验，其原假设为“所有解释变量均为外生”" class="headerlink" title="使用工具变量法的前提是存在内生变量，为此进行豪斯曼检验，其原假设为“所有解释变量均为外生”"></a>使用工具变量法的前提是存在内生变量，为此进行豪斯曼检验，其原假设为“所有解释变量均为外生”</h4><p>qui reg lw iq s expr tenure rns smsa</p>
 <p>est store ols</p>
@@ -77,10 +77,10 @@
 <p>est store iv</p>
 <p>hausman iv ols,constant sigmamore</p>
 <p>(PS:qui 命令是只运行不显示结果，est store 命令是把结果储存为文件，constant sigmamore是为了处理检验统计量为负的情形，可以修正其为正数)</p>
-<p><img src="/06/first/hausman.png" alt="hausman"></p>
+<p><img src="/2018/11/06/first/hausman.png" alt="hausman"></p>
 <p>我们可以在5%的显著性水平上拒绝“所有解释变量均为外生”的原假设，认为iq是内生变量</p>
 <h4 id="由于传统的豪斯曼检验在异方差的情形下不成立，下面进行异方差稳健的DWH检验"><a href="#由于传统的豪斯曼检验在异方差的情形下不成立，下面进行异方差稳健的DWH检验" class="headerlink" title="由于传统的豪斯曼检验在异方差的情形下不成立，下面进行异方差稳健的DWH检验"></a>由于传统的豪斯曼检验在异方差的情形下不成立，下面进行异方差稳健的DWH检验</h4><p>estat endogenous</p>
-<p><img src="/06/first/DWH.png" alt="DWH"></p>
+<p><img src="/2018/11/06/first/DWH.png" alt="DWH"></p>
 <p>DWH检验的p值小于0.05，可以认为iq为内生变量</p>
 <h4 id="如果存在异方差，GMM比2SLS更有效率，GMM估计的命令如下"><a href="#如果存在异方差，GMM比2SLS更有效率，GMM估计的命令如下" class="headerlink" title="如果存在异方差，GMM比2SLS更有效率，GMM估计的命令如下"></a>如果存在异方差，GMM比2SLS更有效率，GMM估计的命令如下</h4><p>ivregress gmm lw s expr tenure rns smsa （iq = med kww)</p>
 <h2 id="6、如何获得工具变量"><a href="#6、如何获得工具变量" class="headerlink" title="6、如何获得工具变量"></a>6、如何获得工具变量</h2><h4 id="1、列出与内生解释变量相关的尽可能多的变量清单（这一步较容易）"><a href="#1、列出与内生解释变量相关的尽可能多的变量清单（这一步较容易）" class="headerlink" title="1、列出与内生解释变量相关的尽可能多的变量清单（这一步较容易）"></a>1、列出与内生解释变量相关的尽可能多的变量清单（这一步较容易）</h4><h4 id="2、从清单中剔除与扰动项相关的变量（这一步较难）"><a href="#2、从清单中剔除与扰动项相关的变量（这一步较难）" class="headerlink" title="2、从清单中剔除与扰动项相关的变量（这一步较难）"></a>2、从清单中剔除与扰动项相关的变量（这一步较难）</h4><p>下面举一个应用工具变量法的很好地案例：警察人数与犯罪率</p>
