@@ -38,95 +38,56 @@
   </section>
 
   <section class="article-entry">
-    <h4>本文使用简单线性回归模型：$Y=\alpha+\beta X+u$</h4>
-<p>当解释变量$X$和扰动项$u$相关时，该解释变量$X$被称为内生变量，此时CLRM假定的严格外生性得不到满足，OLS不再是BLUE
-$$
-Cov(X,u)\ne0
-$$
-但是如果能将内生变量分为两部分：一部分和扰动项相关，另一部分和扰动项不相关，那么就可以用和扰动项不相关的那部分得到一致估计。</p>
+    <h4 id="本文使用简单线性回归模型：-Y-alpha-beta-X-u"><a href="#本文使用简单线性回归模型：-Y-alpha-beta-X-u" class="headerlink" title="本文使用简单线性回归模型：$Y=\alpha+\beta X+u$"></a>本文使用简单线性回归模型：$Y=\alpha+\beta X+u$</h4><p>当解释变量$X$和扰动项$u$相关时，该解释变量$X$被称为内生变量，此时CLRM假定的严格外生性得不到满足，OLS不再是BLUE<br>$$<br>Cov(X,u)\ne0<br>$$<br>但是如果能将内生变量分为两部分：一部分和扰动项相关，另一部分和扰动项不相关，那么就可以用和扰动项不相关的那部分得到一致估计。</p>
 <hr>
-<h2>1、工具变量法</h2>
-<h4>为了分离内生变量，引入工具变量$Z$：</h4>
-<p>$$
-X=\lambda_0+\lambda_1 Z+w
-$$</p>
-<h4>有效的工具变量需要满足以下条件：</h4>
-<p>相关性：工具变量与内生变量相关
-$$
-Cov(Z,X)\ne0
-$$</p>
-<p>外生性：工具变量与扰动项不相关
-$$
-Cov(Z,u)=0
-$$</p>
-<h2>2、二阶段最小二乘法（2SLS)</h2>
-<p>工具变量法一般用“二阶段最小二乘法”来实现，顾名思义，该方法通过两个阶段的回归来完成。</p>
-<h4>第一阶段回归：用内生变量$X$对工具变量$Z$回归，消除扰动项$w$：</h4>
-<p>$$
-X=\lambda_0+\lambda_1 Z+w\longrightarrow \hat{X}=\hat{\lambda_0}+\hat{\lambda_1}Z
-$$</p>
-<h4>第二阶段回归：用被解释变量$Y$对第一阶段回归的拟合值$\hat{X}$进行回归。</h4>
-<p>我们来看一下第二阶段回归的过程，回归方程可以这样写：$Y=\alpha+\beta \hat{X} +\beta (X-\hat{X})+u$</p>
+<h2 id="1、工具变量法"><a href="#1、工具变量法" class="headerlink" title="1、工具变量法"></a>1、工具变量法</h2><h4 id="为了分离内生变量，引入工具变量-Z-："><a href="#为了分离内生变量，引入工具变量-Z-：" class="headerlink" title="为了分离内生变量，引入工具变量$Z$："></a>为了分离内生变量，引入工具变量$Z$：</h4><p>$$<br>X=\lambda_0+\lambda_1 Z+w<br>$$</p>
+<h4 id="有效的工具变量需要满足以下条件："><a href="#有效的工具变量需要满足以下条件：" class="headerlink" title="有效的工具变量需要满足以下条件："></a>有效的工具变量需要满足以下条件：</h4><p>相关性：工具变量与内生变量相关<br>$$<br>Cov(Z,X)\ne0<br>$$</p>
+<p>外生性：工具变量与扰动项不相关<br>$$<br>Cov(Z,u)=0<br>$$</p>
+<h2 id="2、二阶段最小二乘法（2SLS"><a href="#2、二阶段最小二乘法（2SLS" class="headerlink" title="2、二阶段最小二乘法（2SLS)"></a>2、二阶段最小二乘法（2SLS)</h2><p>工具变量法一般用“二阶段最小二乘法”来实现，顾名思义，该方法通过两个阶段的回归来完成。</p>
+<h4 id="第一阶段回归：用内生变量-X-对工具变量-Z-回归，消除扰动项-w-："><a href="#第一阶段回归：用内生变量-X-对工具变量-Z-回归，消除扰动项-w-：" class="headerlink" title="第一阶段回归：用内生变量$X$对工具变量$Z$回归，消除扰动项$w$："></a>第一阶段回归：用内生变量$X$对工具变量$Z$回归，消除扰动项$w$：</h4><p>$$<br>X=\lambda_0+\lambda_1 Z+w\longrightarrow \hat{X}=\hat{\lambda_0}+\hat{\lambda_1}Z<br>$$</p>
+<h4 id="第二阶段回归：用被解释变量-Y-对第一阶段回归的拟合值-hat-X-进行回归。"><a href="#第二阶段回归：用被解释变量-Y-对第一阶段回归的拟合值-hat-X-进行回归。" class="headerlink" title="第二阶段回归：用被解释变量$Y$对第一阶段回归的拟合值$\hat{X}$进行回归。"></a>第二阶段回归：用被解释变量$Y$对第一阶段回归的拟合值$\hat{X}$进行回归。</h4><p>我们来看一下第二阶段回归的过程，回归方程可以这样写：$Y=\alpha+\beta \hat{X} +\beta (X-\hat{X})+u$</p>
 <p>容易看出，这是由$Y=\alpha+\beta X+u$变形得来的，其扰动项$\varepsilon=\beta (X-\hat{X})+u$</p>
-<p>接下来分析$\hat{X}$与$\varepsilon$的相关性：
-$$
-Cov(\hat{X},\varepsilon)=Cov(\hat{X},u)+\beta Cov(\hat{X},X-\hat{X})
-$$
-首先，由于$\hat{X}$是$Z$的线性函数，而$Cov(Z,u)=0$（工具变量的外生性），故$Cov(\hat{X},u)=0$</p>
+<p>接下来分析$\hat{X}$与$\varepsilon$的相关性：<br>$$<br>Cov(\hat{X},\varepsilon)=Cov(\hat{X},u)+\beta Cov(\hat{X},X-\hat{X})<br>$$<br>首先，由于$\hat{X}$是$Z$的线性函数，而$Cov(Z,u)=0$（工具变量的外生性），故$Cov(\hat{X},u)=0$</p>
 <p>其次，在第一阶段回归中，拟合值$\hat{X}$与残差$X-\hat{X}$正交（OLS的正交性），故$Cov(\hat{X},X-\hat{X})=0$</p>
 <p>最后，得到结论：第二阶段回归的解释变量$\hat{X}$与扰动项$\varepsilon$不相关，故2SLS一致。</p>
-<h4>从以上分析可以看出，2SLS的实质：把内生变量$X$分为两部分，由工具变量$Z$造成的外生部分$\hat{X}$，以及与扰动项$u$相关的其余部分$X-\hat{X}$。</h4>
-<h2>3、GMM（广义矩估计）</h2>
-<p>在球形扰动项（扰动项满足”同方差“、“无自相关”性质）的假定下，2SLS是最有效率的，但如果扰动项存在异方差或自相关，那么GMM是相对于2SLS更有效的方法。</p>
-<p>But,我还没有想好怎么言简意骇的来解释书上GMM的复杂证明...</p>
+<h4 id="从以上分析可以看出，2SLS的实质：把内生变量-X-分为两部分，由工具变量-Z-造成的外生部分-hat-X-，以及与扰动项-u-相关的其余部分-X-hat-X-。"><a href="#从以上分析可以看出，2SLS的实质：把内生变量-X-分为两部分，由工具变量-Z-造成的外生部分-hat-X-，以及与扰动项-u-相关的其余部分-X-hat-X-。" class="headerlink" title="从以上分析可以看出，2SLS的实质：把内生变量$X$分为两部分，由工具变量$Z$造成的外生部分$\hat{X}$，以及与扰动项$u$相关的其余部分$X-\hat{X}$。"></a>从以上分析可以看出，2SLS的实质：把内生变量$X$分为两部分，由工具变量$Z$造成的外生部分$\hat{X}$，以及与扰动项$u$相关的其余部分$X-\hat{X}$。</h4><h2 id="3、GMM（广义矩估计）"><a href="#3、GMM（广义矩估计）" class="headerlink" title="3、GMM（广义矩估计）"></a>3、GMM（广义矩估计）</h2><p>在球形扰动项（扰动项满足”同方差“、“无自相关”性质）的假定下，2SLS是最有效率的，但如果扰动项存在异方差或自相关，那么GMM是相对于2SLS更有效的方法。</p>
+<p>But,我还没有想好怎么言简意骇的来解释书上GMM的复杂证明…</p>
 <p>So,今天只把GMM的STATA操作给大家演示，理论部分以后有思路了再讲好伐..</p>
-<h2>4、豪斯曼检验（检验解释变量的内生性）</h2>
-<p>使用工具变量法是有前提的，即存在内生变量。</p>
+<h2 id="4、豪斯曼检验（检验解释变量的内生性）"><a href="#4、豪斯曼检验（检验解释变量的内生性）" class="headerlink" title="4、豪斯曼检验（检验解释变量的内生性）"></a>4、豪斯曼检验（检验解释变量的内生性）</h2><p>使用工具变量法是有前提的，即存在内生变量。</p>
 <p>那么如何检验变量是否为内生呢？</p>
 <p>“豪斯曼检验”的原假设为“$H_0$：所有解释变量均为外生变量”。</p>
 <p>如果$H_0$成立，则OLS与IV（工具变量法）都一致，在大样本下$\hat{\beta_{IV}}$与$\hat{\beta_{OLS}}$都收敛于真实的参数$\beta$。</p>
 <p>反之，如果$H_0$不成立，则IV一致而OLS不一致。</p>
 <p>但是，豪斯曼检验有缺点：不适用异方差的情形，但是经过改进的Durbin-Wu-Hausman tesx 即DWH检验即使在异方差的情况下也适用</p>
-<h2>5、STATA实例</h2>
-<p>今天用一个叫做grilic.dta的数据集来进行STATA操作，grilic.dta被用来研究工资与受教育年限的正相关关系，但其中遗漏了“能力”这个变量，导致了遗漏变量偏差。</p>
+<h2 id="5、STATA实例"><a href="#5、STATA实例" class="headerlink" title="5、STATA实例"></a>5、STATA实例</h2><p>今天用一个叫做grilic.dta的数据集来进行STATA操作，grilic.dta被用来研究工资与受教育年限的正相关关系，但其中遗漏了“能力”这个变量，导致了遗漏变量偏差。</p>
 <p>先来看一下对变量的描述</p>
 <p>de</p>
-<p><img src="/06/first/first%5Cde.png" alt="de"></p>
-<h4>由于iq与能力最为接近，故引入iq作为能力的代理变量，因iq来度量能力存在“测量误差”，故iq是内生变量，考虑使用变量med,kww作为iq的工具变量，进行2SLS回归</h4>
-<p>ivregress 2sls lw s expr tenure rns smsa (iq=med kww)</p>
-<p><img src="/06/first/first%5Civre.png" alt="ivre"></p>
-<h4>检验工具变量med,kww的外生性</h4>
-<p>estat overid</p>
-<p><img src="/06/first/first%5Coverid.png" alt="overid"></p>
+<p><img src="/06/first/de.png" alt="de"></p>
+<h4 id="由于iq与能力最为接近，故引入iq作为能力的代理变量，因iq来度量能力存在“测量误差”，故iq是内生变量，考虑使用变量med-kww作为iq的工具变量，进行2SLS回归"><a href="#由于iq与能力最为接近，故引入iq作为能力的代理变量，因iq来度量能力存在“测量误差”，故iq是内生变量，考虑使用变量med-kww作为iq的工具变量，进行2SLS回归" class="headerlink" title="由于iq与能力最为接近，故引入iq作为能力的代理变量，因iq来度量能力存在“测量误差”，故iq是内生变量，考虑使用变量med,kww作为iq的工具变量，进行2SLS回归"></a>由于iq与能力最为接近，故引入iq作为能力的代理变量，因iq来度量能力存在“测量误差”，故iq是内生变量，考虑使用变量med,kww作为iq的工具变量，进行2SLS回归</h4><p>ivregress 2sls lw s expr tenure rns smsa (iq=med kww)</p>
+<p><img src="/06/first/ivre.png" alt="ivre"></p>
+<h4 id="检验工具变量med-kww的外生性"><a href="#检验工具变量med-kww的外生性" class="headerlink" title="检验工具变量med,kww的外生性"></a>检验工具变量med,kww的外生性</h4><p>estat overid</p>
+<p><img src="/06/first/overid.png" alt="overid"></p>
 <p>p值为0.71,因此接受原假设，认为med,kww外生，与扰动项不相关</p>
-<h4>检验工具变量med,kww的相关性</h4>
-<p>estat firststage,all forcenonrobust</p>
-<p><img src="/06/first/first%5Cfirststage.png" alt="firststage"></p>
+<h4 id="检验工具变量med-kww的相关性"><a href="#检验工具变量med-kww的相关性" class="headerlink" title="检验工具变量med,kww的相关性"></a>检验工具变量med,kww的相关性</h4><p>estat firststage,all forcenonrobust</p>
+<p><img src="/06/first/firststage.png" alt="firststage"></p>
 <p>可以看出F统计量的p值为0，显著拒绝工具变量弱相关的假设，工具变量与内生变量是相关的</p>
-<h4>使用工具变量法的前提是存在内生变量，为此进行豪斯曼检验，其原假设为“所有解释变量均为外生”</h4>
-<p>qui reg lw iq s expr tenure rns smsa</p>
+<h4 id="使用工具变量法的前提是存在内生变量，为此进行豪斯曼检验，其原假设为“所有解释变量均为外生”"><a href="#使用工具变量法的前提是存在内生变量，为此进行豪斯曼检验，其原假设为“所有解释变量均为外生”" class="headerlink" title="使用工具变量法的前提是存在内生变量，为此进行豪斯曼检验，其原假设为“所有解释变量均为外生”"></a>使用工具变量法的前提是存在内生变量，为此进行豪斯曼检验，其原假设为“所有解释变量均为外生”</h4><p>qui reg lw iq s expr tenure rns smsa</p>
 <p>est store ols</p>
 <p>qui ivregress 2sls lw s expr tenure rns smsa (iq=med kww)</p>
 <p>est store iv</p>
 <p>hausman iv ols,constant sigmamore</p>
 <p>(PS:qui 命令是只运行不显示结果，est store 命令是把结果储存为文件，constant sigmamore是为了处理检验统计量为负的情形，可以修正其为正数)</p>
-<p><img src="/06/first/first%5Chausman.png" alt="hausman"></p>
+<p><img src="/06/first/hausman.png" alt="hausman"></p>
 <p>我们可以在5%的显著性水平上拒绝“所有解释变量均为外生”的原假设，认为iq是内生变量</p>
-<h4>由于传统的豪斯曼检验在异方差的情形下不成立，下面进行异方差稳健的DWH检验</h4>
-<p>estat endogenous</p>
-<p><img src="/06/first/first%5CDWH.png" alt="DWH"></p>
+<h4 id="由于传统的豪斯曼检验在异方差的情形下不成立，下面进行异方差稳健的DWH检验"><a href="#由于传统的豪斯曼检验在异方差的情形下不成立，下面进行异方差稳健的DWH检验" class="headerlink" title="由于传统的豪斯曼检验在异方差的情形下不成立，下面进行异方差稳健的DWH检验"></a>由于传统的豪斯曼检验在异方差的情形下不成立，下面进行异方差稳健的DWH检验</h4><p>estat endogenous</p>
+<p><img src="/06/first/DWH.png" alt="DWH"></p>
 <p>DWH检验的p值小于0.05，可以认为iq为内生变量</p>
-<h4>如果存在异方差，GMM比2SLS更有效率，GMM估计的命令如下</h4>
-<p>ivregress gmm lw s expr tenure rns smsa （iq = med kww)</p>
-<h2>6、如何获得工具变量</h2>
-<h4>1、列出与内生解释变量相关的尽可能多的变量清单（这一步较容易）</h4>
-<h4>2、从清单中剔除与扰动项相关的变量（这一步较难）</h4>
-<p>下面举一个应用工具变量法的很好地案例：警察人数与犯罪率</p>
+<h4 id="如果存在异方差，GMM比2SLS更有效率，GMM估计的命令如下"><a href="#如果存在异方差，GMM比2SLS更有效率，GMM估计的命令如下" class="headerlink" title="如果存在异方差，GMM比2SLS更有效率，GMM估计的命令如下"></a>如果存在异方差，GMM比2SLS更有效率，GMM估计的命令如下</h4><p>ivregress gmm lw s expr tenure rns smsa （iq = med kww)</p>
+<h2 id="6、如何获得工具变量"><a href="#6、如何获得工具变量" class="headerlink" title="6、如何获得工具变量"></a>6、如何获得工具变量</h2><h4 id="1、列出与内生解释变量相关的尽可能多的变量清单（这一步较容易）"><a href="#1、列出与内生解释变量相关的尽可能多的变量清单（这一步较容易）" class="headerlink" title="1、列出与内生解释变量相关的尽可能多的变量清单（这一步较容易）"></a>1、列出与内生解释变量相关的尽可能多的变量清单（这一步较容易）</h4><h4 id="2、从清单中剔除与扰动项相关的变量（这一步较难）"><a href="#2、从清单中剔除与扰动项相关的变量（这一步较难）" class="headerlink" title="2、从清单中剔除与扰动项相关的变量（这一步较难）"></a>2、从清单中剔除与扰动项相关的变量（这一步较难）</h4><p>下面举一个应用工具变量法的很好地案例：警察人数与犯罪率</p>
 <p>一般认为，警察人数越多，执法力度越大，则犯罪率应该越低。然而，如果直接把犯罪率对警察人数进行回归，以此度量警察人数对犯罪率的作用，就会出现内生变量偏差。这是因为警察人数其实是内生变量，比如，某城市的犯罪率很高，则市政府通常会增加警察人数。为此必须找到与警察人数相关，但对犯罪率没有其他影响渠道的工具变量。Levitt(1997)创造性地使用“市场选举的政治周期”作为犯罪率的工具变量。通常，在任市长在竞选连任时，为了拉选票，会增加警察人数，故满足相关性。另一方面，选举周期一般以机械的方式确定，除了对警察人数有影响外，不会单独地对犯罪率起作用，故满足外生性。</p>
 <p>（PS:在人大论坛看到一位大佬的话：如果能选到合适的工具变量，那么从MIT博士毕业都没问题了，听着好有道理的样子，有机会的话去MIT验证一下他是不是在吹牛，哈哈哈）</p>
 <hr>
-<h4>写在文尾的话：我写博客的目的一方面是记录自己的学习历程，另一方面是想把自己对书上理解分享给大家，计量的书既大又厚，里面的公式推导复杂又难懂，我追求能用比较简洁明了的方法去学计量，但是简洁就意味着不缜密，因此，我文章中有讲解不善的地方，希望您能留言指出错误，让我们一起好好学习，天天向上吧！</h4>
-
+<h4 id="写在文尾的话：我写博客的目的一方面是记录自己的学习历程，另一方面是想把自己对书上理解分享给大家，计量的书既大又厚，里面的公式推导复杂又难懂，我追求能用比较简洁明了的方法去学计量，但是简洁就意味着不缜密，因此，我文章中有讲解不善的地方，希望您能留言指出错误，让我们一起好好学习，天天向上吧！"><a href="#写在文尾的话：我写博客的目的一方面是记录自己的学习历程，另一方面是想把自己对书上理解分享给大家，计量的书既大又厚，里面的公式推导复杂又难懂，我追求能用比较简洁明了的方法去学计量，但是简洁就意味着不缜密，因此，我文章中有讲解不善的地方，希望您能留言指出错误，让我们一起好好学习，天天向上吧！" class="headerlink" title="写在文尾的话：我写博客的目的一方面是记录自己的学习历程，另一方面是想把自己对书上理解分享给大家，计量的书既大又厚，里面的公式推导复杂又难懂，我追求能用比较简洁明了的方法去学计量，但是简洁就意味着不缜密，因此，我文章中有讲解不善的地方，希望您能留言指出错误，让我们一起好好学习，天天向上吧！"></a>写在文尾的话：我写博客的目的一方面是记录自己的学习历程，另一方面是想把自己对书上理解分享给大家，计量的书既大又厚，里面的公式推导复杂又难懂，我追求能用比较简洁明了的方法去学计量，但是简洁就意味着不缜密，因此，我文章中有讲解不善的地方，希望您能留言指出错误，让我们一起好好学习，天天向上吧！</h4>
   </section>
 </article>
 
@@ -141,7 +102,7 @@ $$
 
   <section class="share-btns">
     <!-- <p> share it if you like it~ </p> -->
-    <a class="twitter-share-button" data-size="large" data-via="DrakeLeung" href="https://twitter.com/intent/tweet?text=>本文使用简单线性回归模型：$Y=\al">
+    <a class="twitter-share-button" data-size="large" data-via="DrakeLeung" href="https://twitter.com/intent/tweet?text= id=" 本文使用简单线性回归模型：-y"="">
   Tweet
 </a>
 
