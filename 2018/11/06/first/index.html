@@ -79,12 +79,12 @@
 
 
 
-<meta name="description" content="本文使用简单线性回归模型：$Y=\alpha+\beta X+u$  当解释变量$X$和扰动项$u$相关时，该解释变量$X$被称为内生变量，此时CLRM假定的严格外生性得不到满足，OLS不再是BLUE$$Cov(X,u)\ne0$$但是如果能将内生变量分为两部分：一部分和扰动项相关，另一部分和扰动项不相关，那么就可以用和扰动项不相关的那部分得到一致估计。  1、工具变量法为了分离内生变量，引入工具">
+<meta name="description" content="本文使用简单线性回归模型：$Y=\alpha+\beta X+u$  当解释变量$X$和扰动项$u$相关时，该解释变量$X$被称为内生变量，此时CLRM假定的严格外生性得不到满足，OLS不再是BLUE  Cov(X,u)\ne0但是如果能将内生变量分为两部分：一部分和扰动项相关，另一部分和扰动项不相关，那么就可以用和扰动项不相关的那部分得到一致估计。  1、工具变量法为了分离内生变量，引入工具变量">
 <meta property="og:type" content="article">
 <meta property="og:title" content="STATA—内生变量的处理（工具变量法）">
 <meta property="og:url" content="http://yoursite.com/2018/11/06/first/index.html">
 <meta property="og:site_name" content="CC Learn Econometrics">
-<meta property="og:description" content="本文使用简单线性回归模型：$Y=\alpha+\beta X+u$  当解释变量$X$和扰动项$u$相关时，该解释变量$X$被称为内生变量，此时CLRM假定的严格外生性得不到满足，OLS不再是BLUE$$Cov(X,u)\ne0$$但是如果能将内生变量分为两部分：一部分和扰动项相关，另一部分和扰动项不相关，那么就可以用和扰动项不相关的那部分得到一致估计。  1、工具变量法为了分离内生变量，引入工具">
+<meta property="og:description" content="本文使用简单线性回归模型：$Y=\alpha+\beta X+u$  当解释变量$X$和扰动项$u$相关时，该解释变量$X$被称为内生变量，此时CLRM假定的严格外生性得不到满足，OLS不再是BLUE  Cov(X,u)\ne0但是如果能将内生变量分为两部分：一部分和扰动项相关，另一部分和扰动项不相关，那么就可以用和扰动项不相关的那部分得到一致估计。  1、工具变量法为了分离内生变量，引入工具变量">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2018/11/06/first/de.png">
 <meta property="og:image" content="http://yoursite.com/2018/11/06/first/ivre.png">
@@ -95,7 +95,7 @@
 <meta property="og:updated_time" content="2018-11-06T10:25:29.354Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="STATA—内生变量的处理（工具变量法）">
-<meta name="twitter:description" content="本文使用简单线性回归模型：$Y=\alpha+\beta X+u$  当解释变量$X$和扰动项$u$相关时，该解释变量$X$被称为内生变量，此时CLRM假定的严格外生性得不到满足，OLS不再是BLUE$$Cov(X,u)\ne0$$但是如果能将内生变量分为两部分：一部分和扰动项相关，另一部分和扰动项不相关，那么就可以用和扰动项不相关的那部分得到一致估计。  1、工具变量法为了分离内生变量，引入工具">
+<meta name="twitter:description" content="本文使用简单线性回归模型：$Y=\alpha+\beta X+u$  当解释变量$X$和扰动项$u$相关时，该解释变量$X$被称为内生变量，此时CLRM假定的严格外生性得不到满足，OLS不再是BLUE  Cov(X,u)\ne0但是如果能将内生变量分为两部分：一部分和扰动项相关，另一部分和扰动项不相关，那么就可以用和扰动项不相关的那部分得到一致估计。  1、工具变量法为了分离内生变量，引入工具变量">
 <meta name="twitter:image" content="http://yoursite.com/2018/11/06/first/de.png">
 
 
@@ -308,22 +308,26 @@
       
         <pre><code>本文使用简单线性回归模型：$Y=\alpha+\beta X+u$</code></pre>
 
-<p>当解释变量$X$和扰动项$u$相关时，该解释变量$X$被称为内生变量，此时CLRM假定的严格外生性得不到满足，OLS不再是BLUE<br>$$<br>Cov(X,u)\ne0<br>$$<br>但是如果能将内生变量分为两部分：一部分和扰动项相关，另一部分和扰动项不相关，那么就可以用和扰动项不相关的那部分得到一致估计。</p>
+<p>当解释变量$X$和扰动项$u$相关时，该解释变量$X$被称为内生变量，此时CLRM假定的严格外生性得不到满足，OLS不再是BLUE</p>
+<script type="math/tex; mode=display">
+Cov(X,u)\ne0</script><p>但是如果能将内生变量分为两部分：一部分和扰动项相关，另一部分和扰动项不相关，那么就可以用和扰动项不相关的那部分得到一致估计。</p>
 <hr>
-<h2 id="1、工具变量法"><a href="#1、工具变量法" class="headerlink" title="1、工具变量法"></a>1、工具变量法</h2><h4 id="为了分离内生变量，引入工具变量-Z-："><a href="#为了分离内生变量，引入工具变量-Z-：" class="headerlink" title="为了分离内生变量，引入工具变量$Z$："></a>为了分离内生变量，引入工具变量$Z$：</h4><p>$$<br>X=\lambda_0+\lambda_1 Z+w<br>$$</p>
-<h4 id="有效的工具变量需要满足以下条件："><a href="#有效的工具变量需要满足以下条件：" class="headerlink" title="有效的工具变量需要满足以下条件："></a>有效的工具变量需要满足以下条件：</h4><ul>
+<h2 id="1、工具变量法"><a href="#1、工具变量法" class="headerlink" title="1、工具变量法"></a>1、工具变量法</h2><h4 id="为了分离内生变量，引入工具变量-Z-："><a href="#为了分离内生变量，引入工具变量-Z-：" class="headerlink" title="为了分离内生变量，引入工具变量$Z$："></a>为了分离内生变量，引入工具变量$Z$：</h4><script type="math/tex; mode=display">
+X=\lambda_0+\lambda_1 Z+w</script><h4 id="有效的工具变量需要满足以下条件："><a href="#有效的工具变量需要满足以下条件：" class="headerlink" title="有效的工具变量需要满足以下条件："></a>有效的工具变量需要满足以下条件：</h4><ul>
 <li><pre><code>相关性：</code></pre>工具变量与内生变量相关</li>
 </ul>
-<p>$$<br>Cov(Z,X)\ne0<br>$$</p>
-<ul>
+<script type="math/tex; mode=display">
+Cov(Z,X)\ne0</script><ul>
 <li><pre><code>外生性：</code></pre>工具变量与扰动项不相关</li>
 </ul>
-<p>$$<br>Cov(Z,u)=0<br>$$</p>
-<h2 id="2、二阶段最小二乘法（2SLS"><a href="#2、二阶段最小二乘法（2SLS" class="headerlink" title="2、二阶段最小二乘法（2SLS)"></a>2、二阶段最小二乘法（2SLS)</h2><p>工具变量法一般用“二阶段最小二乘法”来实现，顾名思义，该方法通过两个阶段的回归来完成。</p>
-<h4 id="第一阶段回归：用内生变量-X-对工具变量-Z-回归，消除扰动项-w-："><a href="#第一阶段回归：用内生变量-X-对工具变量-Z-回归，消除扰动项-w-：" class="headerlink" title="第一阶段回归：用内生变量$X$对工具变量$Z$回归，消除扰动项$w$："></a>第一阶段回归：用内生变量$X$对工具变量$Z$回归，消除扰动项$w$：</h4><p>$$<br>X=\lambda_0+\lambda_1 Z+w\longrightarrow \hat{X}=\hat{\lambda_0}+\hat{\lambda_1}Z<br>$$</p>
-<h4 id="第二阶段回归：用被解释变量-Y-对第一阶段回归的拟合值-hat-X-进行回归。"><a href="#第二阶段回归：用被解释变量-Y-对第一阶段回归的拟合值-hat-X-进行回归。" class="headerlink" title="第二阶段回归：用被解释变量$Y$对第一阶段回归的拟合值$\hat{X}$进行回归。"></a>第二阶段回归：用被解释变量$Y$对第一阶段回归的拟合值$\hat{X}$进行回归。</h4><p>我们来看一下第二阶段回归的过程，回归方程可以这样写：$Y=\alpha+\beta \hat{X} +\beta (X-\hat{X})+u$</p>
+<script type="math/tex; mode=display">
+Cov(Z,u)=0</script><h2 id="2、二阶段最小二乘法（2SLS"><a href="#2、二阶段最小二乘法（2SLS" class="headerlink" title="2、二阶段最小二乘法（2SLS)"></a>2、二阶段最小二乘法（2SLS)</h2><p>工具变量法一般用“二阶段最小二乘法”来实现，顾名思义，该方法通过两个阶段的回归来完成。</p>
+<h4 id="第一阶段回归：用内生变量-X-对工具变量-Z-回归，消除扰动项-w-："><a href="#第一阶段回归：用内生变量-X-对工具变量-Z-回归，消除扰动项-w-：" class="headerlink" title="第一阶段回归：用内生变量$X$对工具变量$Z$回归，消除扰动项$w$："></a>第一阶段回归：用内生变量$X$对工具变量$Z$回归，消除扰动项$w$：</h4><script type="math/tex; mode=display">
+X=\lambda_0+\lambda_1 Z+w\longrightarrow \hat{X}=\hat{\lambda_0}+\hat{\lambda_1}Z</script><h4 id="第二阶段回归：用被解释变量-Y-对第一阶段回归的拟合值-hat-X-进行回归。"><a href="#第二阶段回归：用被解释变量-Y-对第一阶段回归的拟合值-hat-X-进行回归。" class="headerlink" title="第二阶段回归：用被解释变量$Y$对第一阶段回归的拟合值$\hat{X}$进行回归。"></a>第二阶段回归：用被解释变量$Y$对第一阶段回归的拟合值$\hat{X}$进行回归。</h4><p>我们来看一下第二阶段回归的过程，回归方程可以这样写：$Y=\alpha+\beta \hat{X} +\beta (X-\hat{X})+u$</p>
 <p>容易看出，这是由$Y=\alpha+\beta X+u$变形得来的，其扰动项$\varepsilon=\beta (X-\hat{X})+u$</p>
-<p>接下来分析$\hat{X}$与$\varepsilon$的相关性：<br>$$<br>Cov(\hat{X},\varepsilon)=Cov(\hat{X},u)+\beta Cov(\hat{X},X-\hat{X})<br>$$<br>首先，由于$\hat{X}$是$Z$的线性函数，而$Cov(Z,u)=0$（工具变量的外生性），故$Cov(\hat{X},u)=0$</p>
+<p>接下来分析$\hat{X}$与$\varepsilon$的相关性：</p>
+<script type="math/tex; mode=display">
+Cov(\hat{X},\varepsilon)=Cov(\hat{X},u)+\beta Cov(\hat{X},X-\hat{X})</script><p>首先，由于$\hat{X}$是$Z$的线性函数，而$Cov(Z,u)=0$（工具变量的外生性），故$Cov(\hat{X},u)=0$</p>
 <p>其次，在第一阶段回归中，拟合值$\hat{X}$与残差$X-\hat{X}$正交（OLS的正交性），故$Cov(\hat{X},X-\hat{X})=0$</p>
 <p>最后，得到结论：第二阶段回归的解释变量$\hat{X}$与扰动项$\varepsilon$不相关，故2SLS一致。</p>
 <pre><code>从以上分析可以看出，2SLS的实质：把内生变量$X$分为两部分，由工具变量$Z$造成的外生部分$\hat{X}$，以及与扰动项$u$相关的其余部分$X-\hat{X}$。</code></pre>
@@ -333,7 +337,7 @@
 <p>So,今天只把GMM的STATA操作给大家演示，理论部分以后有思路了再讲好伐..</p>
 <h2 id="4、豪斯曼检验（检验解释变量的内生性）"><a href="#4、豪斯曼检验（检验解释变量的内生性）" class="headerlink" title="4、豪斯曼检验（检验解释变量的内生性）"></a>4、豪斯曼检验（检验解释变量的内生性）</h2><p>使用工具变量法是有前提的，即存在内生变量。</p>
 <h4 id="那么如何检验变量是否为内生呢？"><a href="#那么如何检验变量是否为内生呢？" class="headerlink" title="那么如何检验变量是否为内生呢？"></a>那么如何检验变量是否为内生呢？</h4><p>“豪斯曼检验”的原假设为“$H_0$：所有解释变量均为外生变量”。</p>
-<p>如果$H_0$成立，则OLS与IV（工具变量法）都一致，在大样本下$\hat{\beta_{IV}}$与$\hat{\beta_{OLS}}$都收敛于真实的参数$\beta$。</p>
+<p>如果$H<em>0$成立，则OLS与IV（工具变量法）都一致，在大样本下$\hat{\beta</em>{IV}}$与$\hat{\beta_{OLS}}$都收敛于真实的参数$\beta$。</p>
 <p>反之，如果$H_0$不成立，则IV一致而OLS不一致。</p>
 <pre><code>但是，豪斯曼检验有缺点：不适用异方差的情形，但是经过改进的Durbin-Wu-Hausman tesx 即DWH检验即使在异方差的情况下也适用</code></pre>
 
