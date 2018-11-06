@@ -1,101 +1,55 @@
-<!DOCTYPE html>
-<html>
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="utf-8">
-  <title>CC Learn Econometrics</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link rel="shortcut icon" href="/favicon.ico">
-  <link rel="stylesheet" href="/css/app.css">
-  <!-- <link rel='stylesheet' href='http://fonts.useso.com/css?family=Source+Code+Pro'> -->
-  
-</head>
-</html>
-<body>
-  <nav class="app-nav">
-  
-    
-      <a class="active" href="/.">home</a>
-    
-  
-    
-      <a href="/archives">archive</a>
-    
-  
-    
-      <a href="/atom.xml">rss</a>
-    
-  
-</nav>
+extends base
 
-  <header class="app-header">
-  <section class="banner">
-    <!-- http://daverupert.com/2015/12/intrinsic-placeholders-with-picture/ -->
-    <div class="placeholder"></div>
-    <img class="banner-small" data-src="http://7xrcp8.com1.z0.glb.clouddn.com/banner-large.png" src="http://7xrcp8.com1.z0.glb.clouddn.com/banner-small.png" alt="banner">
-  </section>
+block title
+  if config.subtitle
+    title= config.title + ' | ' + config.subtitle
+  else
+    title= config.title
 
-  <section class="description">
-    <img class="avatar" src="http://7xrcp8.com1.z0.glb.clouddn.com/avatar.png" alt="avatar">
-    <h1 class="title"> CC Learn Econometrics </h1>
-    <h3 class="subtitle"> You Are The JavaScript In My HTML </h3>
-  </section>
+block content
+  for post in page.posts.toArray()
+    .post
+      h1.post-title
+        include _partial/helpers.pug
+        a(href=url_for(post.path))
+          +title(post)
+      .post-meta= post.date.format(config.date_format)
+      if theme.disqus
+        a.disqus-comment-count(data-disqus-identifier=post.path, href=url_for(post.path) + '#disqus_thread')
+      if theme.changyan
+        a.ds-thread-count(href=url_for(post.path) + '#SOHUCS')
+          span.cy_cmt_count(id='sourceId::' + post.date.valueOf() style='margin: 0 3px 0 1px;') 0
+          span= ' ' + __('Comment')
+      if post.description
+        .post-content
+          != post.description
+      else if post.excerpt
+        .post-content
+          != post.excerpt
+      else if post.content
+        - var br = 0
+        - for (var i = 0; i < 5; ++i) {
+          - br = post.content.indexOf('\n',br+1)
+          if br<0
+            - break
+          if br >150
+            - break
+        - }
+        if br < 0
+          .post-content
+            != post.content
+        else
+          .post-content
+            != post.content.substring(0, br)
+      p(class='readmore')
+        a(href=url_for(post.path))= __('Readmore')
 
-  <ul class="social-list">
-    <a href="https://twitter.com">Twitter</a>
-    <a href="https://github.com">GitHub</a>
-    <a href="http://weibo.com">Weibo</a>
-  </ul>
-</header>
-
-<main class="index">
-  
-    <article>
-      <h1 class="article-title">
-        <a href="/2018/11/06/first/">STATA—内生变量的处理（工具变量法）</a>
-      </h1>
-
-      <div class="article-entry">
-        
-      </div>
-
-      <div class="article-meta">
-        <span class="article-date">11月 06 2018</span>
-      </div>
-    </article>
-  
-
-  <nav class="page-nav">
-  <span class="page-number current">1</span>
-</nav>
-
-</main>
-
-<footer class="app-footer">
-  <p>
-    Written by
-    <a href="https://github.com/DrakeLeung/hexo-theme-again">
-      Drake Leung
-    </a>
-  </p>
-  <p> Powered by <a href="https://hexo.io"> Hexo </a> </p><p>
-</p></footer>
-
-<script src="/js/app.js"></script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
-</html>
+  include _partial/paginator.pug
+  if theme.disqus
+    script(id='dsq-count-scr', src='//'+ theme.disqus + '.disqus.com/count.js', async)
+  if theme.changyan
+    script#cy_cmt_num(src='https://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=' + theme.changyan, async)
+  if config.mathjax
+    include _partial/mathjax.pug
+  if config.mathjax2
+    include _partial/mathjax2.pug
