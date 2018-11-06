@@ -5,15 +5,27 @@
   
 
   
-  <title>Hexo</title>
+  <title>STATA—-内生变量的处理（工具变量法） | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="STATA—内生变量的处理（工具变量法）==本文使用简单线性回归模型：$Y=\alpha+\beta X+u$== 当解释变量$X$和扰动项$u$相关时，该解释变量$X$被称为内生变量，此时CLRM假定的严格外生性得不到满足，OLS不再是BLUE$$Cov(X,u)\ne0$$但是如果能将内生变量分为两部分：一部分和扰动项相关，另一部分和扰动项不相关，那么就可以用和扰动项不相关的那部分得到一致估计">
+<meta name="keywords" content="Economatices">
+<meta property="og:type" content="article">
+<meta property="og:title" content="STATA—-内生变量的处理（工具变量法）">
+<meta property="og:url" content="http://yoursite.com/2018/11/06/STATA—-内生变量的处理（工具变量法）/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="STATA—内生变量的处理（工具变量法）==本文使用简单线性回归模型：$Y=\alpha+\beta X+u$== 当解释变量$X$和扰动项$u$相关时，该解释变量$X$被称为内生变量，此时CLRM假定的严格外生性得不到满足，OLS不再是BLUE$$Cov(X,u)\ne0$$但是如果能将内生变量分为两部分：一部分和扰动项相关，另一部分和扰动项不相关，那么就可以用和扰动项不相关的那部分得到一致估计">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="c:/Users/hasee/Desktop/新建文件夹/de.png">
+<meta property="og:image" content="c:/Users/hasee/Desktop/新建文件夹/ivre.png">
+<meta property="og:image" content="c:/Users/hasee/Desktop/新建文件夹/overid.png">
+<meta property="og:image" content="c:/Users/hasee/Desktop/新建文件夹/firststage.png">
+<meta property="og:image" content="c:/Users/hasee/Desktop/新建文件夹/hausman.png">
+<meta property="og:image" content="c:/Users/hasee/Desktop/新建文件夹/DWH.png">
+<meta property="og:updated_time" content="2018-11-06T07:19:28.361Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="STATA—-内生变量的处理（工具变量法）">
+<meta name="twitter:description" content="STATA—内生变量的处理（工具变量法）==本文使用简单线性回归模型：$Y=\alpha+\beta X+u$== 当解释变量$X$和扰动项$u$相关时，该解释变量$X$被称为内生变量，此时CLRM假定的严格外生性得不到满足，OLS不再是BLUE$$Cov(X,u)\ne0$$但是如果能将内生变量分为两部分：一部分和扰动项相关，另一部分和扰动项不相关，那么就可以用和扰动项不相关的那部分得到一致估计">
+<meta name="twitter:image" content="c:/Users/hasee/Desktop/新建文件夹/de.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -60,9 +72,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-STATA—-内生变量的处理（工具变量法）" class="article article-type-post" itemscope="" itemprop="blogPost">
+        <section id="main"><article id="post-STATA—-内生变量的处理（工具变量法）" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/11/06/STATA—-内生变量的处理（工具变量法）/" class="article-date">
   <time datetime="2018-11-06T07:18:01.000Z" itemprop="datePublished">2018-11-06</time>
@@ -75,8 +85,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/06/STATA—-内生变量的处理（工具变量法）/">STATA—-内生变量的处理（工具变量法）</a>
+    <h1 class="article-title" itemprop="name">
+      STATA—-内生变量的处理（工具变量法）
     </h1>
   
 
@@ -158,11 +168,9 @@
     </footer>
   </div>
   
-</article>
-
-
+    
   
-
+</article>
 
 </section>
         
