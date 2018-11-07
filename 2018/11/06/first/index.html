@@ -1,58 +1,303 @@
-<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="yes" name="apple-touch-fullscreen"><meta content="telephone=no,email=no" name="format-detection"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"><link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon"><link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet"><script src="https://use.fontawesome.com/adaf0e149c.js"></script><link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.6.0/styles/monokai_sublime.min.css"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="/css/post.css"><link rel="stylesheet" href="/css/markdown-github.css"><title>CC Learn Econometrics</title><script src="/js/googleAnalytics.js"></script></head><body><div id="postContainer"><div id="postTop"><h4 id="logo">你的男孩 CC</h4><br><br><h2 id="postTitle">STATA—内生变量的处理（工具变量法）</h2><br><span aria-hidden="true" class="postTime fa fa-calendar">2018-11-6</span><br><br></div><section id="articleDiv"><p>&lt;h4&gt;本文使用简单线性回归模型：$Y=\alpha+\beta X+u$&lt;/h4&gt;
-&lt;p&gt;当解释变量$X$和扰动项$u$相关时，该解释变量$X$被称为内生变量，此时CLRM假定的严格外生性得不到满足，OLS不再是BLUE
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="本文使用简单线性回归模型：$Y=\alpha+\beta X+u$ 当解释变量$X$和扰动项$u$相关时，该解释变量$X$被称为内生变量，此时CLRM假定的严格外生性得不到满足，OLS不再是BLUE $$ Cov(X,u)\ne0 $$ 但是如果能将内生变量分为两部分：一部分和扰动项相关，另一部分和扰动项不相关，那么就可以用和扰动项不相关的那部分得到一致估计。  1、工具变量法 为了分离内生变量，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="STATA—内生变量的处理（工具变量法）">
+<meta property="og:url" content="lovecbh.github.io/2018/11/06/first/index.html">
+<meta property="og:site_name" content="CC Learn Econometrics">
+<meta property="og:description" content="本文使用简单线性回归模型：$Y=\alpha+\beta X+u$ 当解释变量$X$和扰动项$u$相关时，该解释变量$X$被称为内生变量，此时CLRM假定的严格外生性得不到满足，OLS不再是BLUE $$ Cov(X,u)\ne0 $$ 但是如果能将内生变量分为两部分：一部分和扰动项相关，另一部分和扰动项不相关，那么就可以用和扰动项不相关的那部分得到一致估计。  1、工具变量法 为了分离内生变量，">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-11-07T05:26:55.987Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="STATA—内生变量的处理（工具变量法）">
+<meta name="twitter:description" content="本文使用简单线性回归模型：$Y=\alpha+\beta X+u$ 当解释变量$X$和扰动项$u$相关时，该解释变量$X$被称为内生变量，此时CLRM假定的严格外生性得不到满足，OLS不再是BLUE $$ Cov(X,u)\ne0 $$ 但是如果能将内生变量分为两部分：一部分和扰动项相关，另一部分和扰动项不相关，那么就可以用和扰动项不相关的那部分得到一致估计。  1、工具变量法 为了分离内生变量，">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>STATA—内生变量的处理（工具变量法）</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects_url">项目</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=lovecbh.github.io/2018/11/06/first/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=lovecbh.github.io/2018/11/06/first/&text=STATA—内生变量的处理（工具变量法）"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=lovecbh.github.io/2018/11/06/first/&title=STATA—内生变量的处理（工具变量法）"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=lovecbh.github.io/2018/11/06/first/&is_video=false&description=STATA—内生变量的处理（工具变量法）"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=STATA—内生变量的处理（工具变量法）&body=Check out this article: lovecbh.github.io/2018/11/06/first/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=lovecbh.github.io/2018/11/06/first/&title=STATA—内生变量的处理（工具变量法）"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=lovecbh.github.io/2018/11/06/first/&title=STATA—内生变量的处理（工具变量法）"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=lovecbh.github.io/2018/11/06/first/&title=STATA—内生变量的处理（工具变量法）"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=lovecbh.github.io/2018/11/06/first/&title=STATA—内生变量的处理（工具变量法）"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=lovecbh.github.io/2018/11/06/first/&name=STATA—内生变量的处理（工具变量法）&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">本文使用简单线性回归模型：$Y=\alpha+\beta X+u$</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number"></span> <span class="toc-text">1、工具变量法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">为了分离内生变量，引入工具变量$Z$：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">有效的工具变量需要满足以下条件：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number"></span> <span class="toc-text">2、二阶段最小二乘法（2SLS)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">第一阶段回归：用内生变量$X$对工具变量$Z$回归，消除扰动项$w$：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">第二阶段回归：用被解释变量$Y$对第一阶段回归的拟合值$\hat{X}$进行回归。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">从以上分析可以看出，2SLS的实质：把内生变量$X$分为两部分，由工具变量$Z$造成的外生部分$\hat{X}$，以及与扰动项$u$相关的其余部分$X-\hat{X}$。</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number"></span> <span class="toc-text">3、GMM（广义矩估计）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number"></span> <span class="toc-text">4、豪斯曼检验（检验解释变量的内生性）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number"></span> <span class="toc-text">5、如何获得工具变量</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">1、列出与内生解释变量相关的尽可能多的变量清单（这一步较容易）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">2、从清单中剔除与扰动项相关的变量（这一步较难）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">写在文尾的话：我写博客的目的一方面是记录自己的学习历程，另一方面是想把自己对书上的思考分享给大家，计量的书既大又厚，里面的公式推导复杂又难懂，我追求能用比较简洁明了的方法去理解计量，那么就让我们一起好好学习，天天向上吧！</span></a></li></ol>
+    </li></div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        STATA—内生变量的处理（工具变量法）
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">CC Learn Econometrics</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-11-06T07:46:43.000Z" itemprop="datePublished">2018-11-06</time>
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h4>本文使用简单线性回归模型：$Y=\alpha+\beta X+u$</h4>
+<p>当解释变量$X$和扰动项$u$相关时，该解释变量$X$被称为内生变量，此时CLRM假定的严格外生性得不到满足，OLS不再是BLUE
 $$
 Cov(X,u)\ne0
 $$
-但是如果能将内生变量分为两部分：一部分和扰动项相关，另一部分和扰动项不相关，那么就可以用和扰动项不相关的那部分得到一致估计。&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2&gt;1、工具变量法&lt;/h2&gt;
-&lt;h4&gt;为了分离内生变量，引入工具变量$Z$：&lt;/h4&gt;
-&lt;p&gt;$$
+但是如果能将内生变量分为两部分：一部分和扰动项相关，另一部分和扰动项不相关，那么就可以用和扰动项不相关的那部分得到一致估计。</p>
+<hr>
+<h2>1、工具变量法</h2>
+<h4>为了分离内生变量，引入工具变量$Z$：</h4>
+<p>$$
 X=\lambda_0+\lambda_1 Z+w
-$$&lt;/p&gt;
-&lt;h4&gt;有效的工具变量需要满足以下条件：&lt;/h4&gt;
-&lt;p&gt;相关性：工具变量与内生变量相关
+$$</p>
+<h4>有效的工具变量需要满足以下条件：</h4>
+<p>相关性：工具变量与内生变量相关
 $$
 Cov(Z,X)\ne0
-$$&lt;/p&gt;
-&lt;p&gt;外生性：工具变量与扰动项不相关
+$$</p>
+<p>外生性：工具变量与扰动项不相关
 $$
 Cov(Z,u)=0
-$$&lt;/p&gt;
-&lt;h2&gt;2、二阶段最小二乘法（2SLS)&lt;/h2&gt;
-&lt;p&gt;工具变量法一般用“二阶段最小二乘法”来实现，顾名思义，该方法通过两个阶段的回归来完成。&lt;/p&gt;
-&lt;h4&gt;第一阶段回归：用内生变量$X$对工具变量$Z$回归，消除扰动项$w$：&lt;/h4&gt;
-&lt;p&gt;$$
+$$</p>
+<h2>2、二阶段最小二乘法（2SLS)</h2>
+<p>工具变量法一般用“二阶段最小二乘法”来实现，顾名思义，该方法通过两个阶段的回归来完成。</p>
+<h4>第一阶段回归：用内生变量$X$对工具变量$Z$回归，消除扰动项$w$：</h4>
+<p>$$
 X=\lambda_0+\lambda_1 Z+w\longrightarrow \hat{X}=\hat{\lambda_0}+\hat{\lambda_1}Z
-$$&lt;/p&gt;
-&lt;h4&gt;第二阶段回归：用被解释变量$Y$对第一阶段回归的拟合值$\hat{X}$进行回归。&lt;/h4&gt;
-&lt;p&gt;我们来看一下第二阶段回归的过程，回归方程可以这样写：$Y=\alpha+\beta \hat{X} +\beta (X-\hat{X})+u$&lt;/p&gt;
-&lt;p&gt;容易看出，这是由$Y=\alpha+\beta X+u$变形得来的，其扰动项$\varepsilon=\beta (X-\hat{X})+u$&lt;/p&gt;
-&lt;p&gt;接下来分析$\hat{X}$与$\varepsilon$的相关性：
+$$</p>
+<h4>第二阶段回归：用被解释变量$Y$对第一阶段回归的拟合值$\hat{X}$进行回归。</h4>
+<p>我们来看一下第二阶段回归的过程，回归方程可以这样写：$Y=\alpha+\beta \hat{X} +\beta (X-\hat{X})+u$</p>
+<p>容易看出，这是由$Y=\alpha+\beta X+u$变形得来的，其扰动项$\varepsilon=\beta (X-\hat{X})+u$</p>
+<p>接下来分析$\hat{X}$与$\varepsilon$的相关性：
 $$
 Cov(\hat{X},\varepsilon)=Cov(\hat{X},u)+\beta Cov(\hat{X},X-\hat{X})
 $$
-首先，由于$\hat{X}$是$Z$的线性函数，而$Cov(Z,u)=0$（工具变量的外生性），故$Cov(\hat{X},u)=0$&lt;/p&gt;
-&lt;p&gt;其次，拟合值$\hat{X}$与残差$X-\hat{X}$正交（OLS的正交性），故$Cov(\hat{X},X-\hat{X})=0$&lt;/p&gt;
-&lt;p&gt;最后，得到结论：第二阶段回归的解释变量$\hat{X}$与扰动项$\varepsilon$不相关，故2SLS一致。&lt;/p&gt;
-&lt;h4&gt;从以上分析可以看出，2SLS的实质：把内生变量$X$分为两部分，由工具变量$Z$造成的外生部分$\hat{X}$，以及与扰动项$u$相关的其余部分$X-\hat{X}$。&lt;/h4&gt;
-&lt;h2&gt;3、GMM（广义矩估计）&lt;/h2&gt;
-&lt;p&gt;在球形扰动项（扰动项满足”同方差“、“无自相关”性质）的假定下，2SLS是最有效率的，但如果扰动项存在异方差或自相关，那么GMM是相对于2SLS更有效的方法。&lt;/p&gt;
-&lt;p&gt;But,我还没有想好怎么言简意骇的来解释书上GMM的复杂证明...&lt;/p&gt;
-&lt;p&gt;So,以后有思路了再讲好伐..&lt;/p&gt;
-&lt;h2&gt;4、豪斯曼检验（检验解释变量的内生性）&lt;/h2&gt;
-&lt;p&gt;使用工具变量法是有前提的，即存在内生变量。&lt;/p&gt;
-&lt;p&gt;那么如何检验变量是否为内生呢？&lt;/p&gt;
-&lt;p&gt;“豪斯曼检验”的原假设为“$H_0$：所有解释变量均为外生变量”。&lt;/p&gt;
-&lt;p&gt;如果$H_0$成立，则OLS与IV（工具变量法）都一致，在大样本下$\hat{\beta_{IV}}$与$\hat{\beta_{OLS}}$都收敛于真实的参数$\beta$。&lt;/p&gt;
-&lt;p&gt;反之，如果$H_0$不成立，则IV一致而OLS不一致。&lt;/p&gt;
-&lt;p&gt;但是，豪斯曼检验有缺点：不适用异方差的情形，但是经过改进的Durbin-Wu-Hausman tesx 即DWH检验即使在异方差的情况下也适用&lt;/p&gt;
-&lt;h2&gt;5、如何获得工具变量&lt;/h2&gt;
-&lt;h4&gt;1、列出与内生解释变量相关的尽可能多的变量清单（这一步较容易）&lt;/h4&gt;
-&lt;h4&gt;2、从清单中剔除与扰动项相关的变量（这一步较难）&lt;/h4&gt;
-&lt;p&gt;下面举一个应用工具变量法的很好地案例：警察人数与犯罪率&lt;/p&gt;
-&lt;p&gt;一般认为，警察人数越多，执法力度越大，则犯罪率应该越低。然而，如果直接把犯罪率对警察人数进行回归，以此度量警察人数对犯罪率的作用，就会出现内生变量偏差。这是因为警察人数其实是内生变量，比如，某城市的犯罪率很高，则市政府通常会增加警察人数。为此必须找到与警察人数相关，但对犯罪率没有其他影响渠道的工具变量。Levitt(1997)创造性地使用“市场选举的政治周期”作为犯罪率的工具变量。通常，在任市长在竞选连任时，为了拉选票，会增加警察人数，故满足相关性。另一方面，选举周期一般以机械的方式确定，除了对警察人数有影响外，不会单独地对犯罪率起作用，故满足外生性。&lt;/p&gt;
-&lt;p&gt;（PS:在人大论坛看到这样一句话，如果能选到合适的工具变量，那么从MIT博士毕业都没问题了，Emmm...有机会的话去MIT验证一下，哈哈哈）&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4&gt;写在文尾的话：我写博客的目的一方面是记录自己的学习历程，另一方面是想把自己对书上的思考分享给大家，计量的书既大又厚，里面的公式推导复杂又难懂，我追求能用比较简洁明了的方法去理解计量，那么就让我们一起好好学习，天天向上吧！&lt;/h4&gt;</p>
-</section></div><script src="/js/jquery.min.js"></script><script src="/js/highlight.min.js"></script><script src="/js/start.js"></script><script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
+首先，由于$\hat{X}$是$Z$的线性函数，而$Cov(Z,u)=0$（工具变量的外生性），故$Cov(\hat{X},u)=0$</p>
+<p>其次，拟合值$\hat{X}$与残差$X-\hat{X}$正交（OLS的正交性），故$Cov(\hat{X},X-\hat{X})=0$</p>
+<p>最后，得到结论：第二阶段回归的解释变量$\hat{X}$与扰动项$\varepsilon$不相关，故2SLS一致。</p>
+<h4>从以上分析可以看出，2SLS的实质：把内生变量$X$分为两部分，由工具变量$Z$造成的外生部分$\hat{X}$，以及与扰动项$u$相关的其余部分$X-\hat{X}$。</h4>
+<h2>3、GMM（广义矩估计）</h2>
+<p>在球形扰动项（扰动项满足”同方差“、“无自相关”性质）的假定下，2SLS是最有效率的，但如果扰动项存在异方差或自相关，那么GMM是相对于2SLS更有效的方法。</p>
+<p>But,我还没有想好怎么言简意骇的来解释书上GMM的复杂证明...</p>
+<p>So,以后有思路了再讲好伐..</p>
+<h2>4、豪斯曼检验（检验解释变量的内生性）</h2>
+<p>使用工具变量法是有前提的，即存在内生变量。</p>
+<p>那么如何检验变量是否为内生呢？</p>
+<p>“豪斯曼检验”的原假设为“$H_0$：所有解释变量均为外生变量”。</p>
+<p>如果$H_0$成立，则OLS与IV（工具变量法）都一致，在大样本下$\hat{\beta_{IV}}$与$\hat{\beta_{OLS}}$都收敛于真实的参数$\beta$。</p>
+<p>反之，如果$H_0$不成立，则IV一致而OLS不一致。</p>
+<p>但是，豪斯曼检验有缺点：不适用异方差的情形，但是经过改进的Durbin-Wu-Hausman tesx 即DWH检验即使在异方差的情况下也适用</p>
+<h2>5、如何获得工具变量</h2>
+<h4>1、列出与内生解释变量相关的尽可能多的变量清单（这一步较容易）</h4>
+<h4>2、从清单中剔除与扰动项相关的变量（这一步较难）</h4>
+<p>下面举一个应用工具变量法的很好地案例：警察人数与犯罪率</p>
+<p>一般认为，警察人数越多，执法力度越大，则犯罪率应该越低。然而，如果直接把犯罪率对警察人数进行回归，以此度量警察人数对犯罪率的作用，就会出现内生变量偏差。这是因为警察人数其实是内生变量，比如，某城市的犯罪率很高，则市政府通常会增加警察人数。为此必须找到与警察人数相关，但对犯罪率没有其他影响渠道的工具变量。Levitt(1997)创造性地使用“市场选举的政治周期”作为犯罪率的工具变量。通常，在任市长在竞选连任时，为了拉选票，会增加警察人数，故满足相关性。另一方面，选举周期一般以机械的方式确定，除了对警察人数有影响外，不会单独地对犯罪率起作用，故满足外生性。</p>
+<p>（PS:在人大论坛看到这样一句话，如果能选到合适的工具变量，那么从MIT博士毕业都没问题了，Emmm...有机会的话去MIT验证一下，哈哈哈）</p>
+<hr>
+<h4>写在文尾的话：我写博客的目的一方面是记录自己的学习历程，另一方面是想把自己对书上的思考分享给大家，计量的书既大又厚，里面的公式推导复杂又难懂，我追求能用比较简洁明了的方法去理解计量，那么就让我们一起好好学习，天天向上吧！</h4>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects_url">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">本文使用简单线性回归模型：$Y=\alpha+\beta X+u$</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number"></span> <span class="toc-text">1、工具变量法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">为了分离内生变量，引入工具变量$Z$：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">有效的工具变量需要满足以下条件：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number"></span> <span class="toc-text">2、二阶段最小二乘法（2SLS)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">第一阶段回归：用内生变量$X$对工具变量$Z$回归，消除扰动项$w$：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">第二阶段回归：用被解释变量$Y$对第一阶段回归的拟合值$\hat{X}$进行回归。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">从以上分析可以看出，2SLS的实质：把内生变量$X$分为两部分，由工具变量$Z$造成的外生部分$\hat{X}$，以及与扰动项$u$相关的其余部分$X-\hat{X}$。</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number"></span> <span class="toc-text">3、GMM（广义矩估计）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number"></span> <span class="toc-text">4、豪斯曼检验（检验解释变量的内生性）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number"></span> <span class="toc-text">5、如何获得工具变量</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">1、列出与内生解释变量相关的尽可能多的变量清单（这一步较容易）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">2、从清单中剔除与扰动项相关的变量（这一步较难）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">写在文尾的话：我写博客的目的一方面是记录自己的学习历程，另一方面是想把自己对书上的思考分享给大家，计量的书既大又厚，里面的公式推导复杂又难懂，我追求能用比较简洁明了的方法去理解计量，那么就让我们一起好好学习，天天向上吧！</span></a></li></ol>
+    </li></div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=lovecbh.github.io/2018/11/06/first/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=lovecbh.github.io/2018/11/06/first/&text=STATA—内生变量的处理（工具变量法）"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=lovecbh.github.io/2018/11/06/first/&title=STATA—内生变量的处理（工具变量法）"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=lovecbh.github.io/2018/11/06/first/&is_video=false&description=STATA—内生变量的处理（工具变量法）"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=STATA—内生变量的处理（工具变量法）&body=Check out this article: lovecbh.github.io/2018/11/06/first/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=lovecbh.github.io/2018/11/06/first/&title=STATA—内生变量的处理（工具变量法）"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=lovecbh.github.io/2018/11/06/first/&title=STATA—内生变量的处理（工具变量法）"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=lovecbh.github.io/2018/11/06/first/&title=STATA—内生变量的处理（工具变量法）"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=lovecbh.github.io/2018/11/06/first/&title=STATA—内生变量的处理（工具变量法）"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=lovecbh.github.io/2018/11/06/first/&name=STATA—内生变量的处理（工具变量法）&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Chen gang
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects_url">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
