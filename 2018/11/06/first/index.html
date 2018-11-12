@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="CC Learn Econometrics">
 <meta property="og:description" content="本文使用简单线性回归模型：$Y=\alpha+\beta X+u$  当解释变量$X$和扰动项$u$相关时，该解释变量$X$被称为内生变量，此时CLRM假定的严格外生性得不到满足，OLS不再是BLUE $$ Cov(X,u)\ne0 $$ 但是如果能将内生变量分为两部分：一部分和扰动项相关，另一部分和扰动项不相关，那么就可以用和扰动项不相关的那部分得到一致估计。  1、工具变量法  为了分离内生">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-11-09T09:35:29.838Z">
+<meta property="og:updated_time" content="2018-11-12T11:58:40.593Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2SLS——内生变量的处理（工具变量法）">
 <meta name="twitter:description" content="本文使用简单线性回归模型：$Y=\alpha+\beta X+u$  当解释变量$X$和扰动项$u$相关时，该解释变量$X$被称为内生变量，此时CLRM假定的严格外生性得不到满足，OLS不再是BLUE $$ Cov(X,u)\ne0 $$ 但是如果能将内生变量分为两部分：一部分和扰动项相关，另一部分和扰动项不相关，那么就可以用和扰动项不相关的那部分得到一致估计。  1、工具变量法  为了分离内生">
@@ -99,7 +99,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">1、工具变量法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">2、二阶段最小二乘法（2SLS)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">3、如何获得工具变量</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">1、工具变量法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">2、二阶段最小二乘法（2SLS)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">3、上课补充</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -149,7 +149,7 @@ $$
 <p>为了分离内生变量，引入工具变量$Z$：</p>
 </blockquote>
 <p>$$
-X=\lambda_0+\lambda_1 Z+w
+Y=\alpha+\beta X+\gamma Z+\delta
 $$</p>
 <blockquote>
 <p>有效的工具变量需要满足以下条件：</p>
@@ -185,20 +185,28 @@ $$
 <blockquote>
 <p>从以上分析可以看出，2SLS的实质：把内生变量$X$分为两部分，由工具变量$Z$造成的外生部分$\hat{X}$，以及与扰动项$u$相关的其余部分$X-\hat{X}$。</p>
 </blockquote>
-<h2>3、如何获得工具变量</h2>
+<h2>3、上课补充</h2>
+<p>1、内生性有三种：</p>
 <blockquote>
-<p>1、列出与内生解释变量相关的尽可能多的变量清单（这一步较容易）</p>
+<p>遗失变量</p>
 </blockquote>
 <blockquote>
-<p>2、从清单中剔除与扰动项相关的变量（这一步较难）</p>
+<p>反向因果</p>
 </blockquote>
-<p>下面举一个应用工具变量法的很好地案例：警察人数与犯罪率</p>
-<p>一般认为，警察人数越多，执法力度越大，则犯罪率应该越低。然而，如果直接把犯罪率对警察人数进行回归，以此度量警察人数对犯罪率的作用，就会出现内生变量偏差。这是因为警察人数其实是内生变量，比如，某城市的犯罪率很高，则市政府通常会增加警察人数。为此必须找到与警察人数相关，但对犯罪率没有其他影响渠道的工具变量。Levitt(1997)创造性地使用“市场选举的政治周期”作为犯罪率的工具变量。通常，在任市长在竞选连任时，为了拉选票，会增加警察人数，故满足相关性。另一方面，选举周期一般以机械的方式确定，除了对警察人数有影响外，不会单独地对犯罪率起作用，故满足外生性。</p>
-<p>（PS:在人大论坛看到这样一句话，如果能选到合适的工具变量，那么从MIT博士毕业都没问题了，Emmm...有机会的话去MIT验证一下，哈哈哈）</p>
+<blockquote>
+<p>测量误差</p>
+</blockquote>
+<p>前两种很常见，第三种很少考虑。</p>
+<p>2、自变量分为：</p>
+<blockquote>
+<p>核心变量</p>
+</blockquote>
+<blockquote>
+<p>控制变量</p>
+</blockquote>
+<p>控制变量的作用是为了保证核心变量估计的一致性，核心变量最重要。</p>
+<p>3、分离的是扰动项，不是内生变量。</p>
 <hr>
-<blockquote>
-<p>写在文尾的话：我写博客的目的一方面是记录自己的学习历程，另一方面是想把自己对书上的思考分享给大家，计量的书既大又厚，里面的公式推导复杂又难懂，我追求能用比较简洁明了的方法去理解计量，那么就让我们一起好好学习，天天向上吧!</p>
-</blockquote>
 
   </div>
 </article>
@@ -232,7 +240,7 @@ $$
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">1、工具变量法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">2、二阶段最小二乘法（2SLS)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">3、如何获得工具变量</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">1、工具变量法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">2、二阶段最小二乘法（2SLS)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">3、上课补充</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
