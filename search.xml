@@ -3,13 +3,36 @@
   
     
     <entry>
-      <title>2SLS——内生变量的处理（工具变量法）</title>
+      <title>R语言|ggplot2-想女朋友了，这么做不过分吧？</title>
+      <link href="/2018/11/13/second/"/>
+      <url>/2018/11/13/second/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>ggplot2心形图</p></blockquote><p><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(ggplot2)</span><br><span class="line"><span class="keyword">library</span>(ggthemes)</span><br><span class="line"><span class="comment">#建立笛卡尔心形函数所需要的数据heartd</span></span><br><span class="line">t=seq(<span class="number">0</span>,<span class="number">2</span>*pi,by=<span class="number">0.1</span>)</span><br><span class="line">x=<span class="number">16</span>*sin(t)^<span class="number">3</span></span><br><span class="line">y=<span class="number">13</span>*cos(t)-<span class="number">5</span>*cos(<span class="number">2</span>*t)-<span class="number">2</span>*cos(<span class="number">3</span>*t)-cos(<span class="number">4</span>*t)</span><br><span class="line">a=(x-min(x))/(max(x)-min(x))</span><br><span class="line">b=(y-min(y))/(max(y)-min(y))</span><br><span class="line">heartd &lt;- data.frame(t,x,y,a,b)</span><br><span class="line"><span class="comment">#使用ggplot的路径图画出心形</span></span><br><span class="line">ggplot(heartd,aes(a,b))+geom_polygon(fill=<span class="string">"pink"</span>)</span><br><span class="line">+theme_map()+labs(title=<span class="string">"送给可爱的程百卉"</span>)</span><br><span class="line">+theme(plot.title=element_text(hjust=<span class="number">0.5</span>,color=<span class="string">"red"</span>,size=<span class="number">16</span>))</span><br><span class="line">+annotate(<span class="string">"text"</span>,label=<span class="string">"你像电池\n我像手机\n</span></span><br><span class="line"><span class="string">没有你就没有我的全世界"</span>,size=<span class="number">6</span>,color=<span class="string">"red"</span>,x=<span class="number">0.5</span>,y=<span class="number">0.6</span>)</span><br></pre></td></tr></table></figure></p><p><img src="/2018/11/13/second/second%5Cheart.png" alt="heart"></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> R语言 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>STATA|2SLS内生变量的处理（工具变量法）</title>
       <link href="/2018/11/06/first/"/>
       <url>/2018/11/06/first/</url>
       
-        <content type="html"><![CDATA[<blockquote><p>本文使用简单线性回归模型：$Y=\alpha+\beta X+u$</p></blockquote><p>当解释变量$X$和扰动项$u$相关时，该解释变量$X$被称为内生变量，此时CLRM假定的严格外生性得不到满足，OLS不再是BLUE$$Cov(X,u)\ne0$$但是如果能将内生变量分为两部分：一部分和扰动项相关，另一部分和扰动项不相关，那么就可以用和扰动项不相关的那部分得到一致估计。</p><hr><h2>1、工具变量法</h2><blockquote><p>为了分离内生变量，引入工具变量$Z$：</p></blockquote><p>$$Y=\alpha+\beta X+\gamma Z+\delta$$</p><blockquote><p>有效的工具变量需要满足以下条件：</p></blockquote><p>相关性：工具变量与内生变量相关$$Cov(Z,X)\ne0$$</p><p>外生性：工具变量与扰动项不相关$$Cov(Z,u)=0$$</p><h2>2、二阶段最小二乘法（2SLS)</h2><p>工具变量法一般用“二阶段最小二乘法”来实现，顾名思义，该方法通过两个阶段的回归来完成。</p><blockquote><p>第一阶段回归：用内生变量$X$对工具变量$Z$回归，消除扰动项$w$：</p></blockquote><p>$$X=\lambda_0+\lambda_1 Z+w\longrightarrow \hat{X}=\hat{\lambda_0}+\hat{\lambda_1}Z$$</p><blockquote><p>第二阶段回归：用被解释变量$Y$对第一阶段回归的拟合值$\hat{X}$进行回归。</p></blockquote><p>我们来看一下第二阶段回归的过程，回归方程可以这样写：$Y=\alpha+\beta \hat{X} +\beta (X-\hat{X})+u$</p><p>容易看出，这是由$Y=\alpha+\beta X+u$变形得来的，其扰动项$\varepsilon=\beta (X-\hat{X})+u$</p><p>接下来分析$\hat{X}$与$\varepsilon$的相关性：$$Cov(\hat{X},\varepsilon)=Cov(\hat{X},u)+\beta Cov(\hat{X},X-\hat{X})$$首先，由于$\hat{X}$是$Z$的线性函数，而$Cov(Z,u)=0$（工具变量的外生性），故$Cov(\hat{X},u)=0$</p><p>其次，拟合值$\hat{X}$与残差$X-\hat{X}$正交（OLS的正交性），故$Cov(\hat{X},X-\hat{X})=0$</p><p>最后，得到结论：第二阶段回归的解释变量$\hat{X}$与扰动项$\varepsilon$不相关，故2SLS一致。</p><blockquote><p>从以上分析可以看出，2SLS的实质：把内生变量$X$分为两部分，由工具变量$Z$造成的外生部分$\hat{X}$，以及与扰动项$u$相关的其余部分$X-\hat{X}$。</p></blockquote><h2>3、上课补充</h2><p>1、内生性有三种：</p><blockquote><p>遗失变量</p></blockquote><blockquote><p>反向因果</p></blockquote><blockquote><p>测量误差</p></blockquote><p>前两种很常见，第三种很少考虑。</p><p>2、自变量分为：</p><blockquote><p>核心变量</p></blockquote><blockquote><p>控制变量</p></blockquote><p>控制变量的作用是为了保证核心变量估计的一致性，核心变量最重要。</p><p>3、分离的是扰动项，不是内生变量。</p><hr>]]></content>
+        <content type="html"><![CDATA[<blockquote><p>本文使用简单线性回归模型：$Y=\alpha+\beta X+u$</p></blockquote><p>当解释变量$X$和扰动项$u$相关时，该解释变量$X$被称为内生变量，此时CLRM假定的严格外生性得不到满足，OLS不再是BLUE$$Cov(X,u)\ne0$$但是如果能将内生变量分为两部分：一部分和扰动项相关，另一部分和扰动项不相关，那么就可以用和扰动项不相关的那部分得到一致估计</p><hr><h2>1、工具变量法</h2><p>为了分离内生变量，引入工具变量$Z$：$$Y=\alpha+\beta X+\gamma Z+\delta$$</p><p>有效的工具变量需要满足以下条件：</p><ul><li><strong>相关性</strong>：工具变量与内生变量相关</li></ul><p>$$Cov(Z,X)\ne0$$</p><ul><li><strong>外生性</strong>：工具变量与扰动项不相关</li></ul><p>$$Cov(Z,u)=0$$</p><h2>2、二阶段最小二乘法（2SLS)</h2><p>工具变量法一般用“二阶段最小二乘法”来实现，顾名思义，该方法通过两个阶段的回归来完成</p><ul><li><strong>第一阶段回归</strong>：用内生变量$X$对工具变量$Z$回归，消除扰动项$w$：</li></ul><p>$$X=\lambda_0+\lambda_1 Z+w\longrightarrow \hat{X}=\hat{\lambda_0}+\hat{\lambda_1}Z$$</p><ul><li><strong>第二阶段回归</strong>：用被解释变量$Y$对第一阶段回归的拟合值$\hat{X}$进行回归</li></ul><p>我们来看一下第二阶段回归的过程，回归方程可以这样写：$Y=\alpha+\beta \hat{X} +\beta (X-\hat{X})+u$</p><p>容易看出，这是由$Y=\alpha+\beta X+u$变形得来的，其扰动项$\varepsilon=\beta (X-\hat{X})+u$</p><p>接下来分析$\hat{X}$与$\varepsilon$的相关性：$$Cov(\hat{X},\varepsilon)=Cov(\hat{X},u)+\beta Cov(\hat{X},X-\hat{X})$$首先，由于$\hat{X}$是$Z$的线性函数，而$Cov(Z,u)=0$（工具变量的外生性），故$Cov(\hat{X},u)=0$</p><p>其次，拟合值$\hat{X}$与残差$X-\hat{X}$正交（OLS的正交性），故$Cov(\hat{X},X-\hat{X})=0$</p><p>最后，得到结论：第二阶段回归的解释变量$\hat{X}​$与扰动项$\varepsilon​$不相关，故2SLS一致</p><p><strong>从以上分析可以看出，2SLS的实质：把内生变量分为两部分，由工具变量造成的外生部分，以及与扰动项相关的其余部分</strong></p><h2>3、上课补充</h2><p>1、内生性有三种：</p><ul><li><p><strong>遗失变量</strong></p></li><li><p><strong>反向因果</strong></p></li><li><p><strong>测量误差</strong></p></li></ul><p>前两种很常见，第三种很少考虑</p><p>2、自变量分为：</p><ul><li><p><strong>核心变量</strong></p></li><li><p><strong>控制变量</strong></p></li></ul><p>控制变量的作用是为了保证核心变量估计的一致性，相比于控制变量，核心变量更重要，所以做分析时要有取有舍</p><p>3、分离的是扰动项，不是内生变量</p><hr>]]></content>
       
       
+      
+        <tags>
+            
+            <tag> STATA </tag>
+            
+        </tags>
       
     </entry>
     
