@@ -8,7 +8,7 @@
     <meta http-equiv="Cache-Control" content="no-siteapp">
     <meta http-equiv="Cache-Control" content="no-transform">
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
-    <meta name="apple-mobile-web-app-capable" content="CC Learn Econometrics">
+    <meta name="apple-mobile-web-app-capable" content="Do Like Iron Man">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="format-detection" content="telephone=no,email=no,adress=no">
     <meta name="browsermode" content="application">
@@ -27,10 +27,10 @@
     <!--Title-->
 
 
-<title>matplotlib|plot | CC Learn Econometrics</title>
+<title>matplotlib|一 | Do Like Iron Man</title>
 
 
-    <link rel="alternate" href="/atom.xml" title="CC Learn Econometrics" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="Do Like Iron Man" type="application/atom+xml">
 
 
     <link rel="icon" href="/favicon.ico">
@@ -94,7 +94,7 @@
                     <span class="sr-only"></span>
                         <i class="fa fa-bars"></i>
                     </span>
-                    <a class="navbar-brand" href="lovecbh.github.io">CC Learn Econometrics</a>
+                    <a class="navbar-brand" href="lovecbh.github.io">Do Like Iron Man</a>
                 </div>
                 <div class="collapse navbar-collapse" id="main-menu">
                     <ul class="menu">
@@ -108,7 +108,7 @@
                             </li>
                         
                             <li role="presentation" class="text-center">
-                                <a href="/categories/matplotlib系统学习/"><i class="fa "></i>matplotlib系统学习</a>
+                                <a href="/categories/系统学习/"><i class="fa "></i>系统学习</a>
                             </li>
                         
                             <li role="presentation" class="text-center">
@@ -132,9 +132,9 @@
                     <p id="process"></p>
 <article class="post">
     <div class="post-head">
-        <h1 id="matplotlib|plot">
+        <h1 id="matplotlib|一">
             
-	            matplotlib|plot
+	            matplotlib|一
             
         </h1>
         <div class="post-meta">
@@ -142,8 +142,8 @@
     
     <span class="categories-meta fa-wrap">
         <i class="fa fa-folder-open-o"></i>
-        <a href="/categories/matplotlib系统学习">
-            matplotlib系统学习
+        <a href="/categories/系统学习">
+            系统学习
         </a>
     </span>
     
@@ -179,16 +179,16 @@
     
     <div class="post-body post-content">
         <blockquote>
-<p><code>plot</code> 函数基本的用法有以下四种：</p>
+<p>plot函数基本的用法有以下四种：</p>
 </blockquote>
 <ul>
-<li>默认参数 <code>plt.plot(x,y)</code></li>
-<li>指定参数<code>plt.plot(x,y, format_str)</code></li>
-<li>默认参数<code>plt.plot(y)</code> ，<code>x</code>为 <code>0~N-1</code></li>
-<li>指定参数<code>plt.plot(y, format_str)</code>，<code>x</code> 为 <code>0~N-1</code></li>
+<li>默认参数 plt.plot(x,y)</li>
+<li>指定参数plt.plot(x,y, format_str)</li>
+<li>默认参数plt.plot(y) ，x为0~N-1</li>
+<li>指定参数plt.plot(y, format_str)，x为0~N-1</li>
 </ul>
-<p>传给 <code>plot</code> 的参数可以是列表，但是向 <code>plot</code> 中传入 <code>numpy</code> 数组是更常用的做法</p>
-<p>事实上，如果传入的是列表，<code>matplotlib</code> 会在内部将它转化成数组再进行处理</p>
+<p>传给 plot的参数可以是列表，但是向 plot中传入numpy数组是更常用的做法</p>
+<p>事实上，如果传入的是列表，matplotlib会在内部将它转化成数组再进行处理</p>
 <p>而且，可以在一张图上显示多组数据的处理</p>
 <p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="comment">#arrange不包括末端端点</span></span><br><span class="line">t=np.arange(<span class="number">0</span>,<span class="number">5.2</span>,<span class="number">0.2</span>)</span><br><span class="line">plt.plot(t,t,<span class="string">'r--'</span>,</span><br><span class="line">	t,t**<span class="number">2</span>,<span class="string">'bs'</span>,</span><br><span class="line">	t,t**<span class="number">3</span>,<span class="string">'g^'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2018/11/19/four/1.png"></p>
@@ -332,7 +332,7 @@
 <blockquote>
 <p>图例：</p>
 </blockquote>
-<p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment">#linspace可以通过endpoint来选择是否包括末端端点</span></span><br><span class="line">x=np.linspace(-np.pi,np.pi,endpoint=<span class="keyword">True</span>)</span><br><span class="line">y=np.sin(x)</span><br><span class="line">plt.plot(x,y,<span class="string">'r-'</span>,linewidth=<span class="number">5</span>)</span><br><span class="line">plt.title(<span class="string">'sin function'</span>,fontsize=<span class="number">24</span>)</span><br><span class="line"><span class="comment">#添加文字</span></span><br><span class="line">plt.text(<span class="number">-2</span>,<span class="number">0.5</span>,<span class="string">'put words'</span>,fontsize=<span class="number">16</span>)</span><br><span class="line"><span class="comment">#添加注释</span></span><br><span class="line">plt.annotate(<span class="string">'annotate'</span>,xy=(<span class="number">0</span>,<span class="number">0</span>),xytext=(<span class="number">2</span>,<span class="number">-0.75</span>),</span><br><span class="line">             arrowprops=dict(facecolor=<span class="string">'black'</span>,shrink=<span class="number">0.05</span>),fontsize=<span class="number">16</span>)</span><br><span class="line">plt.xlabel(<span class="string">'x value'</span>,fontsize=<span class="number">16</span>)</span><br><span class="line">plt.ylabel(<span class="string">'y value'</span>,fontsize=<span class="number">16</span>)</span><br><span class="line"><span class="comment">#坐标轴格式</span></span><br><span class="line">plt.tick_params(axis=<span class="string">'both'</span>,labelsize=<span class="number">12</span>)</span><br><span class="line"><span class="comment">#坐标轴范围</span></span><br><span class="line">plt.axis([<span class="number">-4</span>,<span class="number">4</span>,<span class="number">-1.5</span>,<span class="number">1.5</span>])</span><br><span class="line">plt.savefig(<span class="string">'D:/Hexofiles/source/_posts/four/2.png'</span>,bbox_inchs=<span class="string">'tight'</span>)</span><br></pre></td></tr></table></figure></p>
+<p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment">#linspace可以通过endpoint来选择是否包括末端端点</span></span><br><span class="line">x=np.linspace(-np.pi,np.pi,endpoint=<span class="keyword">True</span>)</span><br><span class="line">y=np.sin(x)</span><br><span class="line">plt.plot(x,y,<span class="string">'r-'</span>,linewidth=<span class="number">5</span>)</span><br><span class="line">plt.title(<span class="string">'sin function'</span>,fontsize=<span class="number">24</span>)</span><br><span class="line"><span class="comment">#添加文字</span></span><br><span class="line">plt.text(<span class="number">-2</span>,<span class="number">0.5</span>,<span class="string">'put words'</span>,fontsize=<span class="number">16</span>)</span><br><span class="line"><span class="comment">#添加注释</span></span><br><span class="line">plt.annotate(<span class="string">'annotate'</span>,xy=(<span class="number">0</span>,<span class="number">0</span>),xytext=(<span class="number">2</span>,<span class="number">-0.75</span>),</span><br><span class="line">             arrowprops=dict(facecolor=<span class="string">'black'</span>,shrink=<span class="number">0.05</span>),fontsize=<span class="number">16</span>)</span><br><span class="line">plt.xlabel(<span class="string">'x value'</span>,fontsize=<span class="number">16</span>)</span><br><span class="line">plt.ylabel(<span class="string">'y value'</span>,fontsize=<span class="number">16</span>)</span><br><span class="line"><span class="comment">#网格线plt.grid(boole, which, axis, color, linestyle, linewidth)</span></span><br><span class="line"><span class="comment">#坐标轴格式</span></span><br><span class="line">plt.tick_params(axis=<span class="string">'both'</span>,labelsize=<span class="number">12</span>)</span><br><span class="line"><span class="comment">#坐标轴范围</span></span><br><span class="line">plt.axis([<span class="number">-4</span>,<span class="number">4</span>,<span class="number">-1.5</span>,<span class="number">1.5</span>])</span><br><span class="line">plt.savefig(<span class="string">'D:/Hexofiles/source/_posts/four/2.png'</span>,bbox_inchs=<span class="string">'tight'</span>)</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2018/11/19/four/2.png"></p>
 
     </div>

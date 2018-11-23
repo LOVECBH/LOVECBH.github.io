@@ -8,7 +8,7 @@
     <meta http-equiv="Cache-Control" content="no-siteapp">
     <meta http-equiv="Cache-Control" content="no-transform">
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
-    <meta name="apple-mobile-web-app-capable" content="CC Learn Econometrics">
+    <meta name="apple-mobile-web-app-capable" content="Do Like Iron Man">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="format-detection" content="telephone=no,email=no,adress=no">
     <meta name="browsermode" content="application">
@@ -27,10 +27,10 @@
     <!--Title-->
 
 
-<title>STATA|内生变量的处理：2SLS（工具变量法） | CC Learn Econometrics</title>
+<title>STATA|内生变量的处理：2SLS（工具变量法） | Do Like Iron Man</title>
 
 
-    <link rel="alternate" href="/atom.xml" title="CC Learn Econometrics" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="Do Like Iron Man" type="application/atom+xml">
 
 
     <link rel="icon" href="/favicon.ico">
@@ -94,7 +94,7 @@
                     <span class="sr-only"></span>
                         <i class="fa fa-bars"></i>
                     </span>
-                    <a class="navbar-brand" href="lovecbh.github.io">CC Learn Econometrics</a>
+                    <a class="navbar-brand" href="lovecbh.github.io">Do Like Iron Man</a>
                 </div>
                 <div class="collapse navbar-collapse" id="main-menu">
                     <ul class="menu">
@@ -108,7 +108,7 @@
                             </li>
                         
                             <li role="presentation" class="text-center">
-                                <a href="/categories/matplotlib系统学习/"><i class="fa "></i>matplotlib系统学习</a>
+                                <a href="/categories/系统学习/"><i class="fa "></i>系统学习</a>
                             </li>
                         
                             <li role="presentation" class="text-center">
@@ -185,10 +185,10 @@
 $$
 Cov(X,u)\ne0
 $$
-但是如果能将内生变量分为两部分：一部分和扰动项相关，另一部分和扰动项不相关，那么就可以用和扰动项不相关的那部分得到一致估计</p>
+但是如果能将扰动项分为两部分：一部分和内生变量相关，另一部分和内生变量不相关，那么就可以用和内生变量相关的那部分得到一致估计</p>
 <hr>
 <h2>1、工具变量法</h2>
-<p>为了分离内生变量，引入工具变量$Z$：
+<p>为了分离扰动项，引入工具变量$Z$：
 $$
 Y=\alpha+\beta X+\gamma Z+\delta
 $$</p>
@@ -224,8 +224,7 @@ Cov(\hat{X},\varepsilon)=Cov(\hat{X},u)+\beta Cov(\hat{X},X-\hat{X})
 $$
 首先，由于$\hat{X}$是$Z$的线性函数，而$Cov(Z,u)=0$（工具变量的外生性），故$Cov(\hat{X},u)=0$</p>
 <p>其次，拟合值$\hat{X}$与残差$X-\hat{X}$正交（OLS的正交性），故$Cov(\hat{X},X-\hat{X})=0$</p>
-<p>最后，得到结论：第二阶段回归的解释变量$\hat{X}​$与扰动项$\varepsilon​$不相关，故2SLS一致</p>
-<p><strong>从以上分析可以看出，2SLS的实质：把内生变量分为两部分，由工具变量造成的外生部分，以及与扰动项相关的其余部分</strong></p>
+<p>最后，得到结论：第二阶段回归的解释变量$\hat{X}$与扰动项$\varepsilon$不相关，故2SLS一致</p>
 <h2>3、上课补充</h2>
 <p>1、内生性有三种：</p>
 <ul>
